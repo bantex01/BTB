@@ -115,3 +115,4 @@ print "clearing splunk index, ready for new ingest..."
 clear_splunk_index()
 print "Grabbing new CSV files..."
 grab_and_ingest_csv_files()
+
