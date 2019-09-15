@@ -4,3 +4,151 @@
     [search index=football_19_20 (AwayTeam=$team$ OR HomeTeam=$team$) | eval team="$team$" ] maxsearches=100
 | eval Home_Points=if((HomeTeam==team) AND (FTR=="H"),3,0), Away_Points=if((AwayTeam==team) AND (FTR=="A"),3,0), Draw_Points=if(FTR=="D",1,0), Points_Total=Home_Points+Away_Points+Draw_Points, Full_Time_Home_Team_Goals=if(HomeTeam==team,FTHG,""), Full_Time_Away_Team_Goals=if(AwayTeam==team,FTAG,""), Half_Time_Home_Team_Goals=if(HomeTeam==team,HTHG,""), Half_Time_Away_Team_Goals=if(AwayTeam==team,HTAG,""), Half_Time_Result=case(HTR="A",if(AwayTeam==team,"W","L"),HTR="H",if(HomeTeam==team,"W","L"),HTR="D","D",1=1,"NA"), Full_Time_Result=case(FTR="A",if(AwayTeam==team,"W","L"),FTR="H",if(HomeTeam==team,"W","L"),FTR="D","D",1=1,"NA"), Home_Team_Shots=if(HomeTeam==team,HS,""), Away_Team_Shots=if(AwayTeam==team,AS,""), Home_Team_Shots_On_Target=if(HomeTeam==team,HST,""), Away_Team_Shots_On_Target=if(AwayTeam==team,AST,""), Away_Team_Shots=if(AwayTeam==team,AS,""), Home_Team_Hit_Woodwork=if(HomeTeam==team,HHW,""), Away_Team_Hit_Woodwork=if(AwayTeam==team,AHW,""), Home_Team_Corners=if(HomeTeam==team,HC,""), Away_Team_Corners=if(AwayTeam==team,AC,""), Home_Team_Fouls_Committed=if(HomeTeam==team,HF,""), Away_Team_Fouls_Committed=if(AwayTeam==team,AF,""), Home_Team_Freekicks_Conceded=if(HomeTeam==team,HFKC,""), Away_Team_Freekicks_Conceded=if(AwayTeam==team,AFKC,""), Home_Team_Offsides=if(HomeTeam==team,HO,""), Away_Team_Offsides=if(AwayTeam==team,AO,""), Home_Team_Yellow_Cards=if(HomeTeam==team,HY,""), Away_Team_Yellow_Cards=if(AwayTeam==team,AY,""), Home_Team_Red_Cards=if(HomeTeam==team,HR,""), Away_Team_Red_Cards=if(AwayTeam==team,AR,""), Home_Team_Bookings_Points=if(HomeTeam==team,HBP,""), Away_Team_Bookings_Points=if(AwayTeam==team,ABP,"")
 | table team, HomeTeam, AwayTeam, Referee, FTHG, Full_Time_Home_Team_Goals, FTAG, Full_Time_Away_Team_Goals, HTHG, Half_Time_Home_Team_Goals, HTAG, Half_Time_Away_Team_Goals, HTR, Half_Time_Result, FTR, Full_Time_Result, Home_Points, Away_Points, Draw_Points, Points_Total, Home_Team_Shots, Away_Team_Shots, Home_Team_Shots_On_Target, Away_Team_Shots_On_Target, Home_Team_Hit_Woodwork, Away_Team_Hit_Woodwork, Home_Team_Corners, Away_Team_Corners, Home_Team_Fouls_Committed, Away_Team_Fouls_Committed, Home_Team_Freekicks_Conceded, Away_Team_Freekicks_Conceded, Home_Team_Offsides, Away_Team_Offsides, Home_Team_Yellow_Cards, Away_Team_Yellow_Cards, Home_Team_Red_Cards, Away_Team_Red_Cards, Home_Team_Bookings_Points, Away_Team_Bookings_Points
+
+
+Results and points total (could be used as table)
+
+|inputlookup efl_teams.csv 
+|  table team 
+|  map 
+    [search index=football_19_20 (AwayTeam=$team$ OR HomeTeam=$team$) | eval team="$team$" ] maxsearches=100
+| eval home_points=if((HomeTeam==team) AND (FTR=="H"),3,0)
+| eval away_points=if((AwayTeam==team) AND (FTR=="A"),3,0)
+| eval draw_points=if(FTR=="D",1,0)
+| eval points_total=home_points+away_points+draw_points
+| stats list(HomeTeam) list(AwayTeam) list(FTR) sum(points_total) by team 
+|  sort - sum(points_total)
+
+
+Start of macro
+
+|inputlookup efl_teams.csv 
+|  table team 
+|  map 
+    [search index=football_19_20 (AwayTeam=$team$ OR HomeTeam=$team$) | eval team="$team$" ] maxsearches=100
+| eval home_points=if((HomeTeam==team) AND (FTR=="H"),3,0)
+| eval away_points=if((AwayTeam==team) AND (FTR=="A"),3,0)
+| eval draw_points=if(FTR=="D",1,0)
+| eval points_total=home_points+away_points+draw_points
+| eval Full_Time_Home_Team_Goals=if(HomeTeam==team,FTHG,"")
+| eval Full_Time_Away_Team_Goals=if(AwayTeam==team,FTAG,"")
+| eval Half_Time_Home_Team_Goals=if(HomeTeam==team,HTHG,"")
+| eval Half_Time_Away_Team_Goals=if(AwayTeam==team,HTAG,"")
+| eval Half_Time_Result=case(HTR="A",if(AwayTeam==team,"W","L"),HTR="H",if(HomeTeam==team,"W","L"),HTR="D","D",1=1,"NA")
+| table team, HomeTeam, AwayTeam, FTHG, Full_Time_Home_Team_Goals, FTAG, Full_Time_Away_Team_Goals, HTHG, Half_Time_Home_Team_Goals, HTAG, Half_Time_Away_Team_Goals, HTR, Half_Time_Result
+
+
+A lot of stats…
+
+|inputlookup efl_teams.csv 
+|  table team 
+|  map 
+    [search index=football_19_20 (AwayTeam=$team$ OR HomeTeam=$team$) | eval team="$team$" ] maxsearches=100
+| eval Home_Points=if((HomeTeam==team) AND (FTR=="H"),3,0), Away_Points=if((AwayTeam==team) AND (FTR=="A"),3,0), Draw_Points=if(FTR=="D",1,0), Points_Total=Home_Points+Away_Points+Draw_Points, Full_Time_Home_Team_Goals=if(HomeTeam==team,FTHG,""), Full_Time_Away_Team_Goals=if(AwayTeam==team,FTAG,""), Half_Time_Home_Team_Goals=if(HomeTeam==team,HTHG,""), Half_Time_Away_Team_Goals=if(AwayTeam==team,HTAG,""), Half_Time_Result=case(HTR="A",if(AwayTeam==team,"W","L"),HTR="H",if(HomeTeam==team,"W","L"),HTR="D","D",1=1,"NA"), Full_Time_Result=case(FTR="A",if(AwayTeam==team,"W","L"),FTR="H",if(HomeTeam==team,"W","L"),FTR="D","D",1=1,"NA")
+| table team, HomeTeam, AwayTeam, FTHG, Full_Time_Home_Team_Goals, FTAG, Full_Time_Away_Team_Goals, HTHG, Half_Time_Home_Team_Goals, HTAG, Half_Time_Away_Team_Goals, HTR, Half_Time_Result, FTR, Full_Time_Result, Home_Points, Away_Points, Draw_Points, Points_Total
+
+
+Useful Searches
+
+Avg Corners per league
+
+index=football_19_20 Div=*
+| stats count as games sum(HC) as HC, sum(AC) as AC by Div
+| eval avg_corners_per_game = (HC+AC) / games 
+| eval avg_corners_per_game = round(avg_corners_per_game,2)
+
+
+Avg  cards per league
+
+index=football_19_20 Div=*
+| stats count as games sum(HY) as HY, sum(AY) as AY, sum(HR) as HR, sum(AR) as AR by Div
+| eval avg_yellows_per_game = (HY+AY) / games 
+| eval avg_reds_per_game = (HR+AR) / games 
+| eval avg_yellows_per_game = round(avg_yellows_per_game,2)
+| eval avg_reds_per_game = round(avg_reds_per_game,2)
+
+
+
+
+first workings of bet returns
+
+
+index=football_19_20 liverpool | eval GOALS=FTAG+FTHG | eval CORNERS=HC+AC | eval YCARDS=HY+AY | eval RCARDS=HR+AR | eval TOTAL_CARDS=YCARDS+RCARDS | eval GOALS_BET=if(GOALS<2.5,"less","more") | eval CORNERS_BET=if(CORNERS<=10,"less","more") | eval CARDS_BET=if(TOTAL_CARDS<3.5,"less","more") | eval GOALS_BET_LT_RETURN=if(GOALS_BET=="less",1 * B365lt2_5,0) | eval GOALS_BET_GT_RETURN=if(GOALS_BET=="more",1 * B365gt2_5,0) | eval CORNERS_BET_LT_RETURN=if(CORNERS_BET=="less",1 *  B365Clt2_5,0) | eval CORNERS_BET_GT_RETURN=if(CORNERS_BET=="more",1 * B365Cgt2_5,0) 
+
+
+
+Corners
+
+index=football_19_20 NOT Div=EC | eval GOALS=FTAG+FTHG | eval CORNERS=HC+AC | eval YCARDS=HY+AY | eval RCARDS=HR+AR | eval TOTAL_CARDS=YCARDS+RCARDS | eval GOALS_BET=if(GOALS<2.5,"less","more") | eval CORNERS_BET=if(CORNERS<=10,"less","more") | eval CARDS_BET=if(TOTAL_CARDS<3.5,"less","more") | eval GOALS_BET_LT_RETURN=if(GOALS_BET=="less",1 * B365lt2_5,0) | eval GOALS_BET_GT_RETURN=if(GOALS_BET=="more",1 * B365gt2_5,0) | eval CORNERS_BET_LT_RETURN=if(CORNERS_BET=="less",1 *  B365Clt2_5,0) | eval CORNERS_BET_GT_RETURN=if(CORNERS_BET=="more",1 * B365Cgt2_5,0)  | stats count as stake, count(eval(CORNERS_BET=="less")) as corners_less, count(eval(CORNERS_BET=="more")) as corners_more, sum(CORNERS_BET_LT_RETURN) as corners_lt_return, sum(CORNERS_BET_GT_RETURN) as corners_gt_return by Div | eval profit_corners_gt = corners_gt_return - stake | eval profit_corners_lt = corners_lt_return - stake | eval percent_profit_gt = (profit_corners_gt / stake) * 100 | eval percent_profit_lt = (profit_corners_lt / stake) * 100 | eval profit_per_game_gt = profit_corners_gt / stake | eval profit_per_game_lt = profit_corners_lt / stake
+
+
+
+index=football_19_20 NOT Div=EC | eval GOALS=FTAG+FTHG | eval CORNERS=HC+AC | eval YCARDS=HY+AY | eval RCARDS=HR+AR | eval TOTAL_CARDS=YCARDS+RCARDS | eval GOALS_BET=if(GOALS<2.5,"less","more") | eval CORNERS_BET=if(CORNERS<=10,"less","more") | eval CARDS_BET=if(TOTAL_CARDS<3.5,"less","more") | eval GOALS_BET_LT_RETURN=if(GOALS_BET=="less",1 * B365lt2_5,0) | eval GOALS_BET_GT_RETURN=if(GOALS_BET=="more",1 * B365gt2_5,0) | eval CORNERS_BET_LT_RETURN=if(CORNERS_BET=="less",1 *  B365Clt2_5,0) | eval CORNERS_BET_GT_RETURN=if(CORNERS_BET=="more",1 * B365Cgt2_5,0)  | stats count as stake, count(eval(CORNERS_BET=="less")) as corners_less, count(eval(CORNERS_BET=="more")) as corners_more, sum(CORNERS_BET_LT_RETURN) as corners_lt_return, sum(CORNERS_BET_GT_RETURN) as corners_gt_return by Div, HomeTeam | eval profit_corners_gt = corners_gt_return - stake | eval profit_corners_lt = corners_lt_return - stake | eval percent_profit_gt = (profit_corners_gt / stake) * 100 | eval percent_profit_lt = (profit_corners_lt / stake) * 100 | eval profit_per_game_gt = profit_corners_gt / stake | eval profit_per_game_lt = profit_corners_lt / stake 
+
+
+
+Macros
+
+footie_base_stats_search(1)
+
+index=football_19_20 | eval GOALS=FTAG+FTHG | eval CORNERS=HC+AC | eval YCARDS=HY+AY | eval RCARDS=HR+AR | eval TOTAL_CARDS=YCARDS+RCARDS | eval GOALS_BET=if(GOALS<2.5,"less","more") | eval CORNERS_BET=if(CORNERS<=10,"less","more") | eval CARDS_BET=if(TOTAL_CARDS<3.5,"less","more") | eval GOALS_BET_LT_RETURN=if(GOALS_BET=="less",$stake$ * B365lt2_5,0) | eval GOALS_BET_GT_RETURN=if(GOALS_BET=="more",$stake$ * B365gt2_5,0) | eval CORNERS_BET_LT_RETURN=if(CORNERS_BET=="less",$stake$ * B365Clt2_5,0) | eval CORNERS_BET_GT_RETURN=if(CORNERS_BET=="more",$stake$ * B365Cgt2_5,0)
+
+
+corners_by_div(1)
+
+stats count as games, count(eval(CORNERS_BET=="less")) as corners_less, count(eval(CORNERS_BET=="more")) as corners_more, sum(CORNERS_BET_LT_RETURN) as corners_lt_return, sum(CORNERS_BET_GT_RETURN) as corners_gt_return by Div | eval stake = games * $stake$ | eval profit_corners_gt = corners_gt_return - stake | eval profit_corners_lt = corners_lt_return - stake | eval percent_profit_gt = (profit_corners_gt / stake) * 100 | eval percent_profit_lt = (profit_corners_lt / stake) * 100 | eval profit_per_game_gt = profit_corners_gt / stake | eval profit_per_game_lt = profit_corners_lt / stake | search Div !=EC
+
+
+corners_by_away_team(1)
+
+stats count as games, count(eval(CORNERS_BET=="less")) as corners_less, count(eval(CORNERS_BET=="more")) as corners_more, sum(CORNERS_BET_LT_RETURN) as corners_lt_return, sum(CORNERS_BET_GT_RETURN) as corners_gt_return by Div,AwayTeam | eval stake = games * $stake$ | eval profit_corners_gt = corners_gt_return - stake | eval profit_corners_lt = corners_lt_return - stake | eval percent_profit_gt = (profit_corners_gt / stake) * 100 | eval percent_profit_lt = (profit_corners_lt / stake) * 100 | eval profit_per_game_gt = profit_corners_gt / stake | eval profit_per_game_lt = profit_corners_lt / stake | search Div !=EC
+
+
+corners_by_home_team(1)
+
+stats count as games, count(eval(CORNERS_BET=="less")) as corners_less, count(eval(CORNERS_BET=="more")) as corners_more, sum(CORNERS_BET_LT_RETURN) as corners_lt_return, sum(CORNERS_BET_GT_RETURN) as corners_gt_return by Div,HomeTeam | eval stake = games * $stake$ | eval profit_corners_gt = corners_gt_return - stake | eval profit_corners_lt = corners_lt_return - stake | eval percent_profit_gt = (profit_corners_gt / stake) * 100 | eval percent_profit_lt = (profit_corners_lt / stake) * 100 | eval profit_per_game_gt = profit_corners_gt / stake | eval profit_per_game_lt = profit_corners_lt / stake | search Div !=EC
+
+
+goals_by_div(1)
+
+stats count as games, count(eval(GOALS_BET=="less")) as goals_less, count(eval(GOALS_BET=="more")) as goals_more, sum(GOALS_BET_LT_RETURN) as goals_lt_return, sum(GOALS_BET_GT_RETURN) as goals_gt_return by Div | eval stake = games * $stake$ | eval profit_goals_gt = goals_gt_return - stake | eval profit_goals_lt = goals_lt_return - stake | eval percent_profit_gt = (profit_goals_gt / stake) * 100 | eval percent_profit_lt = (profit_goals_lt / stake) * 100 | eval profit_per_game_gt = profit_goals_gt / stake | eval profit_per_game_lt = profit_goals_lt / stake
+
+
+goals_by_home_team(1)
+
+stats count as games, count(eval(GOALS_BET=="less")) as goals_less, count(eval(GOALS_BET=="more")) as goals_more, sum(GOALS_BET_LT_RETURN) as goals_lt_return, sum(GOALS_BET_GT_RETURN) as goals_gt_return by HomeTeam | eval stake = games * $stake$ | eval profit_goals_gt = goals_gt_return - stake | eval profit_goals_lt = goals_lt_return - stake | eval percent_profit_gt = (profit_goals_gt / stake) * 100 | eval percent_profit_lt = (profit_goals_lt / stake) * 100 | eval profit_per_game_gt = profit_goals_gt / stake | eval profit_per_game_lt = profit_goals_lt / stake
+
+
+goals_by_away_team(1)
+
+stats count as games, count(eval(GOALS_BET=="less")) as goals_less, count(eval(GOALS_BET=="more")) as goals_more, sum(GOALS_BET_LT_RETURN) as goals_lt_return, sum(GOALS_BET_GT_RETURN) as goals_gt_return by AwayTeam | eval stake = games * $stake$ | eval profit_goals_gt = goals_gt_return - stake | eval profit_goals_lt = goals_lt_return - stake | eval percent_profit_gt = (profit_goals_gt / stake) * 100 | eval percent_profit_lt = (profit_goals_lt / stake) * 100 | eval profit_per_game_gt = profit_goals_gt / stake | eval profit_per_game_lt = profit_goals_lt / stake
+
+
+cards_by_div
+
+stats count as games, count(eval(CARDS_BET=="less")) as cards_less, count(eval(CARDS_BET=="more")) as cards_more by Div | eval percent_of_cards_more = (cards_more / games) * 100, percent_of_cards_less = (cards_less / games) * 100
+
+cards_by_hone_team
+
+stats count as games, count(eval(CARDS_BET=="less")) as cards_less, count(eval(CARDS_BET=="more")) as cards_more by Div, HomeTeam | eval percent_of_cards_more = (cards_more / games) * 100, percent_of_cards_less = (cards_less / games) * 100
+
+cards_by_away_team
+
+stats count as games, count(eval(CARDS_BET=="less")) as cards_less, count(eval(CARDS_BET=="more")) as cards_more by Div, AwayTeam | eval percent_of_cards_more = (cards_more / games) * 100, percent_of_cards_less = (cards_less / games) * 100
+
+All as variables
+
+index=football_19_20 | eval GOALS=FTAG+FTHG | eval CORNERS=HC+AC | eval YCARDS=HY+AY | eval RCARDS=HR+AR | eval TOTAL_CARDS=YCARDS+RCARDS | eval GOALS_BET=if(GOALS<$goals$,"less","more") | eval CORNERS_BET=if(CORNERS<=$corners$,"less","more") | eval CARDS_BET=if(TOTAL_CARDS<$cards$,"less","more") | eval GOALS_BET_LT_RETURN=if(GOALS_BET=="less",$stake$ * $goals_lt_odds$,0) | eval GOALS_BET_GT_RETURN=if(GOALS_BET=="more",$stake$ * $goals_gt_odds$,0) | eval CORNERS_BET_LT_RETURN=if(CORNERS_BET=="less",$stake$ * $corners_lt_odds$,0) | eval CORNERS_BET_GT_RETURN=if(CORNERS_BET=="more",$stake$ * $corners_gt_odds$,0) | eval CARDS_BET_LT_RETURN = if(CARDS_BET=="less",$stake$ * $cards_lt_odds$,0) | eval CARDS_BET_GT_RETURN = if(CARDS_BET=="more",$stake$ * $cards_gt_odds$,0)
+
+stake, goals, corners, cards, goals_lt_odds, goals_gt_odds, corners_lt_odds, corners_gt_odds, cards_lt_odds, cards_gt_odds
+
+
+
+
+BTTS first searches
+
+index=football_19_20 Div=* | eval home_score=if(FTHG>0,"yes","no"), away_score=if(FTAG>0,"yes","no") | eval btts_yes_odds=1.50, btts_no_odds=2.50, BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0), BTTS_YES_RETURN=if(BTTS==1,1 * btts_yes_odds,0), BTTS_NO_RETURN=if(NO_BTTS=1,1 * btts_no_odds,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO, sum(BTTS_YES_RETURN) as btts_yes_return, sum(BTTS_NO_RETURN) as btts_no_return by Div | eval btts_yes_profit=btts_yes_return - games, btts_no_profit=btts_no_return - games 
+
+
+
+index=football_19_20 Div=* | eval home_score=if(FTHG>0,"yes","no"), away_score=if(FTAG>0,"yes","no") | eval btts_yes_odds=1.80, btts_no_odds=1.95, BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0), BTTS_YES_RETURN=if(BTTS==1,1 * btts_yes_odds,0), BTTS_NO_RETURN=if(NO_BTTS=1,1 * btts_no_odds,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO, sum(BTTS_YES_RETURN) as btts_yes_return, sum(BTTS_NO_RETURN) as btts_no_return by Div | eval btts_yes_profit=btts_yes_return - games, btts_no_profit=btts_no_return - games
