@@ -107,10 +107,34 @@
       </input>
       <html>
         <h3>1.5 goals</h3>
-        <p>England - Premiership - gt:1.256 lt:4.39</p>
-        <p>England - Championship - gt:1.29 lt:3.70</p>
-        <p>England - League 1 - gt:1.26 lt:3.77</p>
-        <p>England - League 2 - gt:1.29 lt: 3.47</p>
+
+<div style="float: left; width: 33%;">
+<ul>
+<p>England - Premiership - gt:1.256 lt:4.39</p>
+<p>England - Championship - gt:1.29 lt:3.70</p>
+<p>England - League 1 - gt:1.26 lt:3.77</p>
+<p>England - League 2 - gt:1.29 lt: 3.47</p>
+<p>England - Conference - gt:1.28 lt: 3.63</p>
+</ul>
+</div>
+<div style="float: left; width: 33%;">
+<ul>
+<li>Middle Item 1</li>
+<li>Middle Item 2</li>
+<li>Middle Item 3</li>
+<li>Middle Item 4</li>
+<li>Middle Item 5</li>
+</ul>
+</div>
+<div style="float: right; width: 33%;">
+<ul>
+<li>Right Item 1</li>
+<li>Right Item 2</li>
+<li>Right Item 3</li>
+<li>Right Item 4</li>
+<li>Right Item 5</li>
+</ul>
+</div>
       </html>
       <table>
         <search>
@@ -124,16 +148,27 @@
   <row>
     <panel>
       <html>
-        <h1>Goals by Team</h1>
+        <h1>Goals by Team - 2.5 goals</h1>
       </html>
     </panel>
   </row>
   <row>
     <panel>
+      <input type="dropdown" token="goals_home_team" searchWhenChanged="true">
+        <label>Home Team</label>
+        <fieldForLabel>HomeTeam</fieldForLabel>
+        <fieldForValue>HomeTeam</fieldForValue>
+        <search base="base_stats_search">
+          <query>| `goals_by_home_team(1)` | table *</query>
+        </search>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+      </input>
       <table>
-        <title>Goals by Home Team</title>
+        <title>Goals by Home Team - Over/Under 2.5</title>
         <search>
-          <query>`base_stats_search_args(1,2.5,10,4.5,1.20,4.5,1,1,1.83,1)` | `goals_by_home_team(1)`</query>
+          <query>`base_stats_search_args(1,2.5,10,4.5,1.20,4.5,1,1,1.83,1)` | `goals_by_home_team(1)` | search HomeTeam="$goals_home_team$" | sort - percent_profit_gt</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -142,10 +177,21 @@
   </row>
   <row>
     <panel>
+      <input type="dropdown" token="goals_away_team" searchWhenChanged="true">
+        <label>Away Team</label>
+        <fieldForLabel>AwayTeam</fieldForLabel>
+        <fieldForValue>AwayTeam</fieldForValue>
+        <search base="base_stats_search">
+          <query>| `goals_by_away_team(1)` | table *</query>
+        </search>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+      </input>
       <table>
-        <title>Goals by Away Team</title>
+        <title>Goals by Away Team - Over/Under 2.5</title>
         <search>
-          <query>`base_stats_search_args(1,2.5,10,4.5,1.20,4.5,1,1,1.83,1)` | `goals_by_away_team(1)`</query>
+          <query>`base_stats_search_args(1,2.5,10,4.5,1.20,4.5,1,1,1.83,1)` | `goals_by_away_team(1)` | search AwayTeam="$goals_away_team$" | sort - percent_profit_gt</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -161,7 +207,17 @@
   </row>
   <row>
     <panel>
-      <title>BTTS</title>
+      <title>BTTS Stats</title>
+      <table>
+        <search base="base_stats_search">
+          <query>| eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div | eval pct_btts_yes=(BTTS_YES / games) * 100 , pct_btts_no=(BTTS_NO / games) * 100 | eval pct_btts_yes=round(pct_btts_yes,2), pct_btts_no=round(pct_btts_no,2) | sort - pct_btts_yes</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>BTTS - Odds</title>
       <input type="dropdown" token="btts_div" searchWhenChanged="true">
         <label>Division:</label>
         <choice value="E0">England - Premiership</choice>
@@ -196,13 +252,85 @@
       </input>
       <html>
         <h3>Division Avg Odds</h3>
-        <p>Not Yet</p>
+<div style="float: left; width: 33%;">
+<ul>
+<p>England - Premiership - Yes:1.72 No:2.09</p>
+<p>England - Championship - Yes:1.70 No:2.03</p>
+</ul>
+</div>
+<div style="float: left; width: 33%;">
+<ul>
+<li>Middle Item 1</li>
+<li>Middle Item 2</li>
+<li>Middle Item 3</li>
+<li>Middle Item 4</li>
+<li>Middle Item 5</li>
+</ul>
+</div>
+<div style="float: right; width: 33%;">
+<ul>
+<li>Right Item 1</li>
+<li>Right Item 2</li>
+<li>Right Item 3</li>
+<li>Right Item 4</li>
+<li>Right Item 5</li>
+</ul>
+</div>
       </html>
       <table>
         <search>
           <query>index=football_19_20 Div=$btts_div$ | eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval btts_yes_odds="$btts_yes_odds$", btts_no_odds="$btts_no_odds$", BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0), BTTS_YES_RETURN=if(BTTS==1,1 * btts_yes_odds,0), BTTS_NO_RETURN=if(NO_BTTS=1,1 * btts_no_odds,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO, sum(BTTS_YES_RETURN) as btts_yes_return, sum(BTTS_NO_RETURN) as btts_no_return by Div | eval btts_yes_profit=btts_yes_return - games, btts_no_profit=btts_no_return - games | eval percent_profit_yes = (btts_yes_profit / games) * 100 | eval percent_profit_no = (btts_no_profit / games) * 100</query>
           <earliest>0</earliest>
           <latest></latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <h1>BTTS Stats by Team</h1>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <input type="dropdown" token="btts_home_team" searchWhenChanged="true">
+        <label>Home Team</label>
+        <fieldForLabel>HomeTeam</fieldForLabel>
+        <fieldForValue>HomeTeam</fieldForValue>
+        <search base="base_stats_search">
+          <query>| `goals_by_home_team(1)` | table *</query>
+        </search>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+      </input>
+      <title>BTTS Stats - Home Team</title>
+      <table>
+        <search base="base_stats_search">
+          <query>| search HomeTeam="$btts_home_team$" | eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div | eval pct_btts_yes=(BTTS_YES / games) * 100 , pct_btts_no=(BTTS_NO / games) * 100 | eval pct_btts_yes=round(pct_btts_yes,2), pct_btts_no=round(pct_btts_no,2) | sort - pct_btts_yes</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+    <row>
+    <panel>
+      <input type="dropdown" token="btts_away_team" searchWhenChanged="true">
+        <label>Away Team</label>
+        <fieldForLabel>AwayTeam</fieldForLabel>
+        <fieldForValue>AwayTeam</fieldForValue>
+        <search base="base_stats_search">
+          <query>| `goals_by_away_team(1)` | table *</query>
+        </search>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+      </input>
+      <title>BTTS Stats - Away Team</title>
+      <table>
+        <search base="base_stats_search">
+          <query>| search AwayTeam="$btts_away_team$" | eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div | eval pct_btts_yes=(BTTS_YES / games) * 100 , pct_btts_no=(BTTS_NO / games) * 100 | eval pct_btts_yes=round(pct_btts_yes,2), pct_btts_no=round(pct_btts_no,2) | sort - pct_btts_yes</query>
         </search>
       </table>
     </panel>
