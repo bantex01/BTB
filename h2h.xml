@@ -1,0 +1,99 @@
+<form>
+  <label>head2head</label>
+  <search id="base_stats_search">
+    <query>`base_stats_search_args(1,2.5,10,5.5,4.39,1.26,1,1,1.83,1)` | fields *</query>
+    <earliest>1</earliest>
+    <latest>now</latest>
+    <sampleRatio>1</sampleRatio>
+  </search>
+  <search id="base_h2h_search">
+    <query>index=football_19_20 HomeTeam="$home_team$" | eval under_2_5_goals=if(FTHG+FTAG&lt;2.5,1,0), over_2_5_goals=if(FTHG+FTAG&gt;2.5,1,0), btts_yes=if(FTHG&gt;0 AND FTAG &gt;0,1,0), btts_no=if(FTHG==0 OR FTAG==0,1,0), corners_over_10=if(HC+AC&gt;10,1,0), corners_over_9=if(HC+AC&gt;9,1,0), corners_over_8=if(HC+AC&gt;8,1,0), cards_over_3_5=if(HY+HR+AY+AR&gt;3.5,1,0), cards_under_3_5=if(HY+HR+AY+AR&lt;3.5,1,0), cards_over_4_5=if(HY+HR+AY+AR&gt;4.5,1,0), cards_under_4_5=if(HY+HR+AY+AR&lt;4.5,1,0), cards_over_5_5=if(HY+HR+AY+AR&gt;5.5,1,0), cards_under_5_5=if(HY+HR+AY+AR&lt;5.5,1,0) | stats count as games, sum(under_2_5_goals) as under_2_5_goals, sum(over_2_5_goals) as over_2_5_goals, sum(btts_yes) as btts_yes, sum(btts_no) as btts_no, sum(corners_over_10) as corners_over_10, sum(corners_over_9) as corners_over_9, sum(corners_over_8) as corners_over_8, sum(cards_over_3_5) as cards_over_3_5, sum(cards_under_3_5) as cards_under_3_5, sum(cards_over_4_5) as cards_over_4_5, sum(cards_under_4_5) as cards_under_4_5, sum(cards_over_5_5) as cards_over_5_5, sum(cards_under_5_5) as cards_under_5_5 by HomeTeam | rename HomeTeam as Team | append [search index=football_19_20 AwayTeam="$away_team$" | eval under_2_5_goals=if(FTHG+FTAG&lt;2.5,1,0), over_2_5_goals=if(FTHG+FTAG&gt;2.5,1,0), btts_yes=if(FTHG&gt;0 AND FTAG &gt;0,1,0), btts_no=if(FTHG==0 OR FTAG==0,1,0), corners_over_10=if(HC+AC&gt;10,1,0), corners_over_9=if(HC+AC&gt;9,1,0), corners_over_8=if(HC+AC&gt;8,1,0), cards_over_3_5=if(HY+HR+AY+AR&gt;3.5,1,0), cards_under_3_5=if(HY+HR+AY+AR&lt;3.5,1,0), cards_over_4_5=if(HY+HR+AY+AR&gt;4.5,1,0), cards_under_4_5=if(HY+HR+AY+AR&lt;4.5,1,0), cards_over_5_5=if(HY+HR+AY+AR&gt;5.5,1,0), cards_under_5_5=if(HY+HR+AY+AR&lt;5.5,1,0) | stats count as games, sum(under_2_5_goals) as under_2_5_goals, sum(over_2_5_goals) as over_2_5_goals, sum(btts_yes) as btts_yes, sum(btts_no) as btts_no, sum(corners_over_10) as corners_over_10, sum(corners_over_9) as corners_over_9, sum(corners_over_8) as corners_over_8, sum(cards_over_3_5) as cards_over_3_5, sum(cards_under_3_5) as cards_under_3_5, sum(cards_over_4_5) as cards_over_4_5, sum(cards_under_4_5) as cards_under_4_5, sum(cards_over_5_5) as cards_over_5_5, sum(cards_under_5_5) as cards_under_5_5 by AwayTeam | rename AwayTeam as Team] | eval percent_under_2_5_goals = (under_2_5_goals / games) * 100, percent_over_2_5_goals = (over_2_5_goals / games) * 100, percent_btts_yes = (btts_yes / games) * 100, percent_btts_no = (btts_no / games) * 100, percent_corners_over_10 = (corners_over_10 / games) * 100, percent_corners_over_9 = (corners_over_9 / games) * 100, percent_corners_over_8 = (corners_over_8 / games) * 100, percent_cards_over_3_5 = (cards_over_3_5 / games) * 100, percent_cards_under_3_5 = (cards_under_3_5 / games) * 100, percent_cards_over_4_5 = (cards_over_4_5 / games) * 100, percent_cards_under_4_5 = (cards_under_4_5 / games) * 100, percent_cards_over_5_5 = (cards_over_5_5 / games) * 100, percent_cards_under_5_5 = (cards_under_5_5 / games) * 100</query>
+    <earliest>1</earliest>
+    <latest>now</latest>
+    <sampleRatio>1</sampleRatio>
+  </search>
+  <fieldset submitButton="false"></fieldset>
+  <row>
+    <panel>
+      <html>
+        <h1>Head to Head - Bet Analysis</h1>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <input type="dropdown" searchWhenChanged="true" token="home_team">
+        <label>Home Team</label>
+        <fieldForLabel>HomeTeam</fieldForLabel>
+        <fieldForValue>HomeTeam</fieldForValue>
+        <search base="base_stats_search">
+          <query>| dedup HomeTeam | fields HomeTeam | table *</query>
+        </search>
+      </input>
+      <input type="dropdown" searchWhenChanged="true" token="away_team">
+        <label>Away Team</label>
+        <fieldForLabel>AwayTeam</fieldForLabel>
+        <fieldForValue>AwayTeam</fieldForValue>
+        <search base="base_stats_search">
+          <query>| dedup AwayTeam | fields AwayTeam | table *</query>
+        </search>
+      </input>
+      <table>
+        <title>Statistics - $home_team$ v $away_team$</title>
+        <search base="base_h2h_search">
+          <query>| table *</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Goals - Over/Under 2.5</title>
+        <search base="base_h2h_search">
+          <query>| fields Team percent*goals</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>BTTS</title>
+        <search base="base_h2h_search">
+          <query>| fields Team percent_btts*</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Cards</title>
+        <search base="base_h2h_search">
+          <query>| fields Team percent_cards*</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Corners</title>
+        <search base="base_h2h_search">
+          <query>| fields Team percent_corners*</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Compound Average Percentages</title>
+        <search base="base_h2h_search">
+          <query>| stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes, avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5, avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+</form>
