@@ -88,10 +88,45 @@
   </row>
   <row>
     <panel>
+      <html>
+        <h1>Compund Average Percentages</h1>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <table>
-        <title>Compound Average Percentages</title>
+        <title>Goals</title>
         <search base="base_h2h_search">
-          <query>| stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes, avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5, avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10</query>
+          <query>| stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5</query>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>BTTS</title>
+        <search base="base_h2h_search">
+          <query>| stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Cards</title>
+        <search base="base_h2h_search">
+          <query>| stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Corners</title>
+        <search base="base_h2h_search">
+          <query>| stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10</query>
         </search>
       </table>
     </panel>
