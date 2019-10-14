@@ -1,0 +1,122 @@
+<form>
+  <label>Tennis_h2h</label>
+  <search id="base_h2h_tennis_search_player_stats">
+    <query>index=tennis Comment=Completed | fields *</query>
+    <earliest>1</earliest>
+    <latest>now</latest>
+    <sampleRatio>1</sampleRatio>
+  </search>
+  <search id="base_h2h_tennis_player_specific">
+    <query>index=tennis Comment=Completed (Winner="$player1$" OR Winner="$player2$") AND (Loser="$player1$" OR Loser="$player2$") | fields *</query>
+    <earliest>1</earliest>
+    <latest>now</latest>
+    <sampleRatio>1</sampleRatio>
+  </search>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="player1" searchWhenChanged="true">
+      <label>Player 1:</label>
+      <fieldForLabel>Loser</fieldForLabel>
+      <fieldForValue>Loser</fieldForValue>
+      <search base="base_h2h_tennis_search_player_stats">
+        <query>| dedup Loser | sort Loser</query>
+      </search>
+    </input>
+    <input type="dropdown" token="player2" searchWhenChanged="true">
+      <label>Player2:</label>
+      <fieldForLabel>Loser</fieldForLabel>
+      <fieldForValue>Loser</fieldForValue>
+      <search base="base_h2h_tennis_search_player_stats">
+        <query>| dedup Loser | sort Loser</query>
+      </search>
+    </input>
+    <input type="dropdown" token="court" searchWhenChanged="true">
+      <label>Court Type:</label>
+      <choice value="*">All</choice>
+      <choice value="indoor">Indoor</choice>
+      <choice value="outdoor">Outdoor</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="surface" searchWhenChanged="true">
+      <label>Surface:</label>
+      <choice value="*">All</choice>
+      <choice value="Clay">Clay</choice>
+      <choice value="Hard">Hard</choice>
+      <choice value="Grass">Grass</choice>
+      <choice value="Carpet">Carpet</choice>
+      <initialValue>*</initialValue>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>$player1$</title>
+      <table>
+        <title>Career Summary</title>
+        <search base="base_h2h_tennis_search_player_stats">
+          <query>| search (Winner="$player1$" OR Loser="$player1$") | eval games_won_1set=if(Winner="$player1$",W1,L1), games_won_2set=if(Winner="$player1$",W2,L2), games_won_3set=if(Winner="$player1$",W3,L3), games_won_4set=if(Winner="$player1$",W4,L4), games_won_5set=if(Winner="$player1$",W5,L5), sets_won=if(Winner="$player1$",Wsets,Lsets) | stats count as Matches, sum(eval(Winner="$player1$")) as matches_won, sum(eval(Loser="$player1$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of"</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>$player2$</title>
+      <table>
+        <title>Career Summary</title>
+        <search base="base_h2h_tennis_search_player_stats">
+          <query>| search (Winner="$player2$" OR Loser="$player2$") | eval games_won_1set=if(Winner="$player2$",W1,L1), games_won_2set=if(Winner="$player2$",W2,L2), games_won_3set=if(Winner="$player2$",W3,L3), games_won_4set=if(Winner="$player2$",W4,L4), games_won_5set=if(Winner="$player2$",W5,L5), sets_won=if(Winner="$player2$",Wsets,Lsets) | stats count as Matches, sum(eval(Winner="$player2$")) as matches_won, sum(eval(Loser="$player2$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of"</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <h1>
+          Head to head - $player1$ v $player2$
+        </h1>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+        <table>
+        <title>$player1$ v $player2$ - Match by Match</title>
+        <search base="base_h2h_tennis_player_specific">
+          <query>| search (Winner="$player1$" OR Loser="$player1$") | search Court=$court$ Surface=$surface$ | fields Date, Tournament, Court, Surface, "Best of", Winner, Loser, Wsets, Lsets, W1, L1, W2, L2, W3, L3, W4, L4, W5, L5 | fields - _raw, _time</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>$player1$ - Match Averages</title>
+        <search base="base_h2h_tennis_player_specific">
+          <query>| search (Winner="$player1$" OR Loser="$player1$") | eval games_won_1set=if(Winner="$player1$",W1,L1), games_won_2set=if(Winner="$player1$",W2,L2), games_won_3set=if(Winner="$player1$",W3,L3), games_won_4set=if(Winner="$player1$",W4,L4), games_won_5set=if(Winner="$player1$",W5,L5), sets_won=if(Winner="$player1$",Wsets,Lsets) | stats count as Matches, sum(eval(Winner="$player1$")) as matches_won, sum(eval(Loser="$player1$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of" | search Court=$court$ Surface=$surface$</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>$player2$ - Match Averages</title>
+        <search base="base_h2h_tennis_player_specific">
+          <query>| search (Winner="$player2$" OR Loser="$player2$") | eval games_won_1set=if(Winner="$player2$",W1,L1), games_won_2set=if(Winner="$player2$",W2,L2), games_won_3set=if(Winner="$player2$",W3,L3), games_won_4set=if(Winner="$player2$",W4,L4), games_won_5set=if(Winner="$player2$",W5,L5), sets_won=if(Winner="$player2$",Wsets,Lsets) | stats count as Matches, sum(eval(Winner="$player2$")) as matches_won, sum(eval(Loser="$player2$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of" | search Court=$court$ Surface=$surface$</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>$player1$ v $player2$ - Game Averages</title>
+        <search base="base_h2h_tennis_player_specific">
+          <query>| eval sum_games_in_1set=(W1+L1), sum_games_in_2set=(W2+L2), sum_games_in_3set=(W3+L3), sum_games_in_4set=(W4+L4), sum_games_in_5set=(W5+L5) | stats avg(sum_games_in_1set) as avg_games_in_1set, avg(sum_games_in_2set) as avg_games_in_2set, avg(sum_games_in_3set) as avg_games_in_3set, avg(sum_games_in_4set) as avg_games_in_4set, avg(sum_games_in_5set) as avg_games_in_5set by Court, Surface, "Best of" | addtotals avg* | search Court=$court$ Surface=$surface$</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+</form>
