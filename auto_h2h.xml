@@ -25,7 +25,8 @@
       <choice value="fixtures_SP1.csv">Spain - League 1</choice>
       <choice value="fixtures_SP2.csv">Spain - League 2</choice>
       <choice value="fixtures_F1.csv">France - League 1</choice>
-      <choice value="fixtures_F2.csv">France - League 2</choice>       
+      <choice value="fixtures_F2.csv">France - League 2</choice>
+      <choice value="fixtures_N1.csv">Netherlands - Eredivisie</choice>
         <change>
               <unset token="form.game1_home"></unset>
               <unset token="form.game2_home"></unset>
