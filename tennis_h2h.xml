@@ -54,7 +54,7 @@
       <table>
         <title>Career Summary</title>
         <search base="base_h2h_tennis_search_player_stats">
-          <query>| search (Winner="$player1$" OR Loser="$player1$") | eval games_won_1set=if(Winner="$player1$",W1,L1), games_won_2set=if(Winner="$player1$",W2,L2), games_won_3set=if(Winner="$player1$",W3,L3), games_won_4set=if(Winner="$player1$",W4,L4), games_won_5set=if(Winner="$player1$",W5,L5), sets_won=if(Winner="$player1$",Wsets,Lsets) | stats count as Matches, sum(eval(Winner="$player1$")) as matches_won, sum(eval(Loser="$player1$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of"</query>
+          <query>| search (Winner="$player1$" OR Loser="$player1$") | eval games_won_1set=if(Winner="$player1$",W1,L1), games_won_2set=if(Winner="$player1$",W2,L2), games_won_3set=if(Winner="$player1$",W3,L3), games_won_4set=if(Winner="$player1$",W4,L4), games_won_5set=if(Winner="$player1$",W5,L5), sets_won=if(Winner="$player1$",Wsets,Lsets), ranking=if(Winner="$player1$",WRank,LRank) | streamstats latest(ranking) as Ranking | stats count as Matches, sum(eval(Winner="$player1$")) as matches_won, sum(eval(Loser="$player1$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of", Ranking | sort + "Best of"</query>
         </search>
       </table>
     </panel>
@@ -65,7 +65,7 @@
       <table>
         <title>Career Summary</title>
         <search base="base_h2h_tennis_search_player_stats">
-          <query>| search (Winner="$player2$" OR Loser="$player2$") | eval games_won_1set=if(Winner="$player2$",W1,L1), games_won_2set=if(Winner="$player2$",W2,L2), games_won_3set=if(Winner="$player2$",W3,L3), games_won_4set=if(Winner="$player2$",W4,L4), games_won_5set=if(Winner="$player2$",W5,L5), sets_won=if(Winner="$player2$",Wsets,Lsets) | stats count as Matches, sum(eval(Winner="$player2$")) as matches_won, sum(eval(Loser="$player2$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of"</query>
+          <query>| search (Winner="$player2$" OR Loser="$player2$") | eval games_won_1set=if(Winner="$player2$",W1,L1), games_won_2set=if(Winner="$player2$",W2,L2), games_won_3set=if(Winner="$player2$",W3,L3), games_won_4set=if(Winner="$player2$",W4,L4), games_won_5set=if(Winner="$player2$",W5,L5), sets_won=if(Winner="$player2$",Wsets,Lsets), ranking=if(Winner="$player2$",WRank,LRank) | streamstats latest(ranking) as Ranking | stats count as Matches, sum(eval(Winner="$player2$")) as matches_won, sum(eval(Loser="$player2$")) as matches_lost, avg(games_won_1set), avg(games_won_2set), avg(games_won_3set), avg(games_won_4set), avg(games_won_5set) by Court, Surface, "Best of", Ranking | sort + "Best of"</query>
         </search>
       </table>
     </panel>
@@ -81,10 +81,10 @@
   </row>
   <row>
     <panel>
-        <table>
+      <table>
         <title>$player1$ v $player2$ - Match by Match</title>
         <search base="base_h2h_tennis_player_specific">
-          <query>| search (Winner="$player1$" OR Loser="$player1$") | search Court=$court$ Surface=$surface$ | fields Date, Tournament, Court, Surface, "Best of", Winner, Loser, Wsets, Lsets, W1, L1, W2, L2, W3, L3, W4, L4, W5, L5 | fields - _raw, _time</query>
+          <query>| search (Winner="$player1$" OR Loser="$player1$") | search Court=$court$ Surface=$surface$ | fields Date, Tournament, Court, Surface, "Best of", Winner, WRank, Loser, LRank, Wsets, Lsets, W1, L1, W2, L2, W3, L3, W4, L4, W5, L5 | fields - _raw, _time</query>
         </search>
       </table>
     </panel>
@@ -112,7 +112,7 @@
   <row>
     <panel>
       <table>
-        <title>$player1$ v $player2$ - Game Averages</title>
+        <title>$player1$ v $player2$ - Match Averages</title>
         <search base="base_h2h_tennis_player_specific">
           <query>| eval sum_games_in_1set=(W1+L1), sum_games_in_2set=(W2+L2), sum_games_in_3set=(W3+L3), sum_games_in_4set=(W4+L4), sum_games_in_5set=(W5+L5) | stats avg(sum_games_in_1set) as avg_games_in_1set, avg(sum_games_in_2set) as avg_games_in_2set, avg(sum_games_in_3set) as avg_games_in_3set, avg(sum_games_in_4set) as avg_games_in_4set, avg(sum_games_in_5set) as avg_games_in_5set by Court, Surface, "Best of" | addtotals avg* | search Court=$court$ Surface=$surface$</query>
         </search>
