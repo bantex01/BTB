@@ -27,6 +27,7 @@
       <choice value="SP2">Spain - League 2</choice>
       <choice value="I1">Italy - Serie A</choice>
       <choice value="I2">Italy - Serie B</choice>
+      <choice value="N1">Netherlands - Eredivisie</choice>
     </input>
   </fieldset>
   <row depends="$debug$">
@@ -86,6 +87,7 @@
         <choice value="SP2">Spain - League 2</choice>
         <choice value="I1">Italy - Serie A</choice>
         <choice value="I2">Italy - Serie B</choice>
+        <choice value="N1">Netherlands - Eredivisie</choice>
       </input>
       <input type="dropdown" token="cards" searchWhenChanged="true">
         <label>Cards</label>
