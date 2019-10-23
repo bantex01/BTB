@@ -27,6 +27,7 @@
       <choice value="SP2">Spain - League 2</choice>
       <choice value="I1">Italy - Serie A</choice>
       <choice value="I2">Italy - Serie B</choice>
+      <choice value="N1">Netherlands - Eredivisie</choice>
     </input>
   </fieldset>
   <row depends="$debug$">
@@ -94,6 +95,7 @@
         <choice value="SP2">Spain - League 2</choice>
         <choice value="I1">Italy - Serie A</choice>
         <choice value="I2">Italy - Serie B</choice>
+        <choice value="N1">Netherlands - Eredivisie</choice>
       </input>
       <input type="dropdown" token="goals" searchWhenChanged="true">
         <label>Goals</label>
@@ -111,20 +113,20 @@
 
 <div style="float: left; width: 33%;">
 <ul>
-<p>England - Premiership - gt:1.256 lt:4.39</p>
-<p>England - Championship - gt:1.29 lt:3.70</p>
-<p>England - League 1 - gt:1.26 lt:3.77</p>
-<p>England - League 2 - gt:1.29 lt:3.47</p>
-<p>England - Conference - gt:1.28 lt:3.63</p>
-<p>England - Bundesliga 1 - gt:1.15 lt:5.81</p>
+<li>England - Premiership - gt:1.256 lt:4.39</li>
+<li>England - Championship - gt:1.29 lt:3.70</li>
+<li>England - League 1 - gt:1.26 lt:3.77</li>
+<li>England - League 2 - gt:1.29 lt:3.47</li>
+<li>England - Conference - gt:1.28 lt:3.63</li>
+<li>Germany - Bundesliga 1 - gt:1.15 lt:5.81</li>
 </ul>
 </div>
 <div style="float: left; width: 33%;">
 <ul>
-<li>MIddle Item 1</li>
-<li>Middle Item 2</li>
-<li>Middle Item 3</li>
-<li>Middle Item 4</li>
+<li>Germany - Bundesliga 2 - gt:1.20 lt:4.40</li>
+<li>Scotland - Premiership - gt:1.32 lt:3.52</li>
+<li>Spain - League 1 - gt:1.36 lt:3.56</li>
+<li>Spain - League 2 - gt:1.42 lt:2.76</li>
 <li>Middle Item 5</li>
 </ul>
 </div>
@@ -267,6 +269,7 @@
         <choice value="SP2">Spain - League 2</choice>
         <choice value="I1">Italy - Serie A</choice>
         <choice value="I2">Italy - Serie B</choice>
+        <choice value="N1">Netherlands - Eredivisie</choice>
         <default>E0</default>
         <initialValue>E0</initialValue>
       </input>
@@ -284,17 +287,19 @@
         <h3>Division Avg Odds</h3>
 <div style="float: left; width: 33%;">
 <ul>
-<p>England - Premiership - Yes:1.72 No:2.09</p>
-<p>England - Championship - Yes:1.70 No:2.03</p>
-<p>England - Conference - Yes:1.76 No:2.00</p>
+<li>England - Premiership - Yes:1.72 No:2.09</li>
+<li>England - Championship - Yes:1.70 No:2.03</li>
+<li>England - League 2 - Yes:1.75 No:1.97</li>
+<li>England - Conference - Yes:1.76 No:2.00</li>
+<li>Scotland - Premiership - Yes:1.2 No:1.77</li>
 </ul>
 </div>
 <div style="float: left; width: 33%;">
 <ul>
-<li>Middle Item 1</li>
-<li>Middle Item 2</li>
-<li>Middle Item 3</li>
-<li>Middle Item 4</li>
+<li>Italy - Serie A - Yes:1.74 No:2.04</li>
+<li>Italy - Serie B - Yes:1.90 No:1.86</li>
+<li>Spain - League 1 - Yes:1.96 No:1.84</li>
+<li>Spain - League 2 - Yes:2.13 No:1.65</li>
 <li>Middle Item 5</li>
 </ul>
 </div>
