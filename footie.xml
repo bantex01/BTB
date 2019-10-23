@@ -12,7 +12,7 @@
     <sampleRatio>1</sampleRatio>
   </search>
   <search id="base_ref_search">
-    <query>index=football_19_20 Div=$division$ | table *</query>
+    <query>index=football_19_20 | table *</query>
     <earliest>1</earliest>
     <latest>now</latest>
     <sampleRatio>1</sampleRatio>
@@ -37,6 +37,7 @@
       <choice value="spanish_l2_teams.csv">Spain - League 2</choice>
       <choice value="italian_sa_teams.csv">Italy - Serie A</choice>
       <choice value="italian_sb_teams.csv">Italy - Serie B</choice>
+      <choice value="dutch_teams.csv">Netherlands - Eredivisie</choice>
       <change>
         <condition value="england_prem_teams.csv">
           <set token="division">E0</set>
@@ -89,6 +90,9 @@
         <condition value="italian_sb_teams.csv">
           <set token="division">I2</set>
         </condition>
+        <condition value="dutch_teams.csv">
+          <set token="division">N1</set>
+        </condition>        
       </change>
       <initialValue>england_prem_teams.csv</initialValue>
     </input>
@@ -132,6 +136,14 @@
         <option name="drilldown">none</option>
         <option name="numberPrecision">0.00</option>
       </single>
+    </panel>
+    <panel>
+      <title>BTTS Stats</title>
+      <table>
+        <search base="base_ref_search">
+          <query>| search Div=$division$ | eval home_score=if(FTHG>0,"yes","no"), away_score=if(FTAG>0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div</query>
+        </search>
+      </table>
     </panel>
   </row>
   <row>
@@ -332,7 +344,7 @@
       <title>Referees Average Cards - Home</title>
       <table>
         <search base="base_ref_search">
-          <query>| stats count as Games avg(HY) as Avg_Home_Yellows min(HY) as Min_Home_Yellows max(HY) as Max_Home_Yellows avg(HR) as Avg_Home_Reds min(HR) as Min_Home_Reds max(HR) as Max_Home_Reds by Referee |  eval Avg_Home_Yellows=round(Avg_Home_Yellows,1), Min_Home_Yellows=round(Min_Home_Yellows,1), Max_Home_Yellows=round(Max_Home_Yellows,1), Avg_Home_Reds=round(Avg_Home_Reds,1), Min_Home_Reds=round(Min_Home_Reds,1), Max_Home_Reds=round(Max_Home_Reds,1) | sort - Avg_Home_Yellows, Avg_Home_reds</query>
+          <query>| search Div=$division$ | stats count as Games avg(HY) as Avg_Home_Yellows min(HY) as Min_Home_Yellows max(HY) as Max_Home_Yellows avg(HR) as Avg_Home_Reds min(HR) as Min_Home_Reds max(HR) as Max_Home_Reds by Referee |  eval Avg_Home_Yellows=round(Avg_Home_Yellows,1), Min_Home_Yellows=round(Min_Home_Yellows,1), Max_Home_Yellows=round(Max_Home_Yellows,1), Avg_Home_Reds=round(Avg_Home_Reds,1), Min_Home_Reds=round(Min_Home_Reds,1), Max_Home_Reds=round(Max_Home_Reds,1) | sort - Avg_Home_Yellows, Avg_Home_reds</query>
         </search>
         <option name="drilldown">none</option>
       </table>
@@ -341,7 +353,7 @@
       <title>Referees Average Cards - Away</title>
       <table>
         <search base="base_ref_search">
-          <query>| stats count as Games avg(AY) as Avg_Away_Yellows min(AY) as Min_Away_Yellows max(AY) as Max_Away_Yellows avg(AR) as Avg_Away_Reds min(AR) as Min_Away_Reds max(AR) as Max_Away_Reds by Referee |  eval Avg_Away_Yellows=round(Avg_Away_Yellows,1), Min_Away_Yellows=round(Min_Away_Yellows,1), Max_Away_Yellows=round(Max_Away_Yellows,1), Avg_Away_Reds=round(Avg_Away_Reds,1), Min_Away_Reds=round(Min_Away_Reds,1), Max_Away_Reds=round(Max_Away_Reds,1) | sort - Avg_Away_Yellows, Avg_Away_Reds</query>
+          <query>| search Div=$division$| stats count as Games avg(AY) as Avg_Away_Yellows min(AY) as Min_Away_Yellows max(AY) as Max_Away_Yellows avg(AR) as Avg_Away_Reds min(AR) as Min_Away_Reds max(AR) as Max_Away_Reds by Referee |  eval Avg_Away_Yellows=round(Avg_Away_Yellows,1), Min_Away_Yellows=round(Min_Away_Yellows,1), Max_Away_Yellows=round(Max_Away_Yellows,1), Avg_Away_Reds=round(Avg_Away_Reds,1), Min_Away_Reds=round(Min_Away_Reds,1), Max_Away_Reds=round(Max_Away_Reds,1) | sort - Avg_Away_Yellows, Avg_Away_Reds</query>
         </search>
         <option name="drilldown">none</option>
       </table>
