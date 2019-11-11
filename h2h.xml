@@ -13,6 +13,22 @@
     <sampleRatio>1</sampleRatio>
   </search>
   <fieldset submitButton="false"></fieldset>
+  <row depends="$debug$">
+    <panel>
+      <table>
+        <search base="base_stats_search">
+          <query>| search HomeTeam="$home_team$" | fields *</query>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <search base="base_stats_search">
+          <query>| search AwayTeam="$away_team$" | fields *</query>
+        </search>
+      </table>
+    </panel>
+  </row>
   <row>
     <panel>
       <html>
@@ -60,12 +76,56 @@
   </row>
   <row>
     <panel>
+      <chart>
+        <title>Goals - $home_team$</title>
+        <search base="base_stats_search">
+          <query>| search HomeTeam="$home_team$" AND Date=*2019* | stats values(FTHG) as "$home_team$"_goals values(GOALS) as total_goals by Date | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | sort sortable_date | rename sortable_date as date | fields date, "$home_team$"_goals, total_goals</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.showDataLabels">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Goals - $away_team$</title>
+        <search base="base_stats_search">
+          <query>| search AwayTeam="$away_team$" AND Date=*2019* | stats values(FTAG) as "$away_team$"_goals values(GOALS) as total_goals by Date | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | sort sortable_date | rename sortable_date as date | fields date, "$away_team$"_goals, total_goals</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.showDataLabels">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <table>
         <title>BTTS</title>
         <search base="base_h2h_search">
           <query>| fields Team avg* percent_btts* | fields - avg_cards, avg_corners</query>
         </search>
       </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>BTTS - $home_team$</title>
+        <search base="base_stats_search">
+          <query>| search HomeTeam="$home_team$" AND Date=*2019* | eval btts=if(FTHG&gt;0 AND FTAG&gt;0,100,0) | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | stats values(btts) as BTTS by sortable_date | sort sortable_date | rename sortable_date as date</query>
+        </search>
+        <option name="charting.axisY.maximumNumber">100</option>
+        <option name="charting.chart">area</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>BTTS - $away_team$</title>
+        <search base="base_stats_search">
+          <query>| search AwayTeam="$away_team$" AND Date=*2019* | eval btts=if(FTHG&gt;0 AND FTAG&gt;0,100,0) | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | stats values(btts) as BTTS by sortable_date | sort sortable_date | rename sortable_date as date</query>
+        </search>
+        <option name="charting.axisY.maximumNumber">100</option>
+        <option name="charting.chart">area</option>
+      </chart>
     </panel>
   </row>
   <row>
@@ -80,12 +140,56 @@
   </row>
   <row>
     <panel>
+      <chart>
+        <title>Cards - $home_team$</title>
+        <search base="base_stats_search">
+          <query>| search HomeTeam="$home_team$" AND Date=*2019* | eval home_cards=(HY+HR), total_cards=(HY+HR+AY+AR) | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | stats values(total_cards) as total_cards, values(home_cards) as "$home_team$"_cards by sortable_date | sort sortable_date | rename sortable_date as date</query>
+        </search>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.chart">line</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Cards - $away_team$</title>
+        <search base="base_stats_search">
+          <query>| search AwayTeam="$away_team$" AND Date=*2019* | eval away_cards=(AY+AR), total_cards=(HY+HR+AY+AR) | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | stats values(total_cards) as total_cards, values(away_cards) as "$away_team$"_cards by sortable_date | sort sortable_date | rename sortable_date as date</query>
+        </search>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.chart">line</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <table>
         <title>Corners</title>
         <search base="base_h2h_search">
           <query>| fields Team avg* percent_corners* | fields - avg_cards, avg_goals</query>
         </search>
       </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Corners - $home_team$</title>
+        <search base="base_stats_search">
+          <query>| search HomeTeam="$home_team$" AND Date=*2019* | eval home_corners=(HC), total_corners=(HC+AC) | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | stats values(total_corners) as total_corners, values(home_corners) as "$home_team$"_corners by sortable_date | sort sortable_date | rename sortable_date as date</query>
+        </search>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.chart">line</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Corners - $away_team$</title>
+        <search base="base_stats_search">
+          <query>| search AwayTeam="$away_team$" AND Date=*2019* | eval away_corners=(AC), total_corners=(HC+AC) | eval temp=split(Date,"/") | eval day=mvindex(temp,0), month=mvindex(temp,1), year=mvindex(temp,2), sortable_date=year . month . day | stats values(total_corners) as total_corners, values(away_corners) as "$away_team$"_corners by sortable_date | sort sortable_date | rename sortable_date as date</query>
+        </search>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.chart">line</option>
+      </chart>
     </panel>
   </row>
   <row>
@@ -133,22 +237,22 @@
           <query>| stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -161,13 +265,13 @@
           <query>| stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; "80", "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
