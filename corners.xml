@@ -28,6 +28,10 @@
       <choice value="I1">Italy - Serie A</choice>
       <choice value="I2">Italy - Serie B</choice>
       <choice value="N1">Netherlands - Eredivisie</choice>
+      <choice value="B1">Belgium - First Division</choice>
+      <choice value="P1">Portugal - Primeira League</choice>
+      <choice value="T1">Turkey - Super Lig</choice>
+      <choice value="G1">Greece - League 1</choice>
     </input>
   </fieldset>
   <row depends="$debug$">
@@ -70,6 +74,7 @@
       <title>Alternative Corners</title>
       <input type="dropdown" token="div2" searchWhenChanged="true">
         <label>Division:</label>
+        <choice value="*">All Divisions</choice>
         <choice value="E0">England - Premiership</choice>
         <choice value="E1">England - Championship</choice>
         <choice value="E2">England - League 1</choice>
@@ -88,9 +93,14 @@
         <choice value="I1">Italy - Serie A</choice>
         <choice value="I2">Italy - Serie B</choice>
         <choice value="N1">Netherlands - Eredivsie</choice>
+        <choice value="B1">Belgium - First Division</choice>
+        <choice value="P1">Portugal - Primeira League</choice>
+        <choice value="T1">Turkey - Super Lig</choice>
+        <choice value="G1">Greece - League 1</choice>
       </input>
       <input type="dropdown" token="corners" searchWhenChanged="true">
         <label>corners</label>
+        <choice value="8">8</choice>
         <choice value="9">9</choice>
       </input>
       <input type="text" token="gt_odds" searchWhenChanged="true">
@@ -128,7 +138,7 @@
       </html>
       <table>
         <search>
-          <query>`base_stats_search_args(1,2.5,$corners$,1,1,1,$lt_odds$,$gt_odds$,1,1)` | `corners_by_div(1)` | search Div=$div2$ | table games, corners_equal, corners_less, corners_more, profit*, percent*</query>
+          <query>`base_stats_search_args(1,2.5,$corners$,1,1,1,$lt_odds$,$gt_odds$,1,1)` | `corners_by_div(1)` | search Div=$div2$ | table Div, games, corners_equal, corners_less, corners_more, profit*, percent*</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
