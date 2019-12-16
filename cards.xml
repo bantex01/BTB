@@ -28,6 +28,10 @@
       <choice value="I1">Italy - Serie A</choice>
       <choice value="I2">Italy - Serie B</choice>
       <choice value="N1">Netherlands - Eredivisie</choice>
+      <choice value="B1">Belgium - First Division</choice>
+      <choice value="P1">Portugal - Primeira League</choice>
+      <choice value="T1">Turkey - Super Lig</choice>
+      <choice value="G1">Greece - League 1</choice>      
     </input>
   </fieldset>
   <row depends="$debug$">
@@ -88,6 +92,10 @@
         <choice value="I1">Italy - Serie A</choice>
         <choice value="I2">Italy - Serie B</choice>
         <choice value="N1">Netherlands - Eredivisie</choice>
+      <choice value="B1">Belgium - First Division</choice>
+      <choice value="P1">Portugal - Primeira League</choice>
+      <choice value="T1">Turkey - Super Lig</choice>
+      <choice value="G1">Greece - League 1</choice>        
       </input>
       <input type="dropdown" token="cards" searchWhenChanged="true">
         <label>Cards</label>
