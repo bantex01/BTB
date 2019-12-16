@@ -38,6 +38,10 @@
       <choice value="italian_sa_teams.csv">Italy - Serie A</choice>
       <choice value="italian_sb_teams.csv">Italy - Serie B</choice>
       <choice value="dutch_teams.csv">Netherlands - Eredivisie</choice>
+      <choice value="belgium_teams.csv">Belgium - First Division</choice>
+      <choice value="portugal_teams.csv">Portugal - Primeira League</choice>
+      <choice value="turkey_teams.csv">Turkey - Super Lig</choice>
+      <choice value="greece_teams.csv">Greece - League 1</choice>
       <change>
         <condition value="england_prem_teams.csv">
           <set token="division">E0</set>
@@ -92,7 +96,19 @@
         </condition>
         <condition value="dutch_teams.csv">
           <set token="division">N1</set>
-        </condition>        
+        </condition>
+        <condition value="belgium_teams.csv">
+          <set token="division">B1</set>
+        </condition> 
+        <condition value="portugal_teams.csv">
+          <set token="division">P1</set>
+        </condition> 
+        <condition value="turkey_teams.csv">
+          <set token="division">T1</set>
+        </condition> 
+        <condition value="greece_teams.csv">
+          <set token="division">G1</set>
+        </condition>            
       </change>
       <initialValue>england_prem_teams.csv</initialValue>
     </input>
