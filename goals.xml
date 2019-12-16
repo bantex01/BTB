@@ -28,6 +28,10 @@
       <choice value="I1">Italy - Serie A</choice>
       <choice value="I2">Italy - Serie B</choice>
       <choice value="N1">Netherlands - Eredivisie</choice>
+      <choice value="B1">Belgium - First Division</choice>
+      <choice value="P1">Portugal - Primeira League</choice>
+      <choice value="T1">Turkey - Super Lig</choice>
+      <choice value="G1">Greece - League 1</choice>      
     </input>
   </fieldset>
   <row depends="$debug$">
@@ -96,6 +100,10 @@
         <choice value="I1">Italy - Serie A</choice>
         <choice value="I2">Italy - Serie B</choice>
         <choice value="N1">Netherlands - Eredivisie</choice>
+      <choice value="B1">Belgium - First Division</choice>
+      <choice value="P1">Portugal - Primeira League</choice>
+      <choice value="T1">Turkey - Super Lig</choice>
+      <choice value="G1">Greece - League 1</choice>        
       </input>
       <input type="dropdown" token="goals" searchWhenChanged="true">
         <label>Goals</label>
@@ -270,6 +278,10 @@
         <choice value="I1">Italy - Serie A</choice>
         <choice value="I2">Italy - Serie B</choice>
         <choice value="N1">Netherlands - Eredivisie</choice>
+      <choice value="B1">Belgium - First Division</choice>
+      <choice value="P1">Portugal - Primeira League</choice>
+      <choice value="T1">Turkey - Super Lig</choice>
+      <choice value="G1">Greece - League 1</choice>        
         <default>E0</default>
         <initialValue>E0</initialValue>
       </input>
@@ -345,7 +357,7 @@
       </input>
       <table>
         <search base="base_stats_search">
-          <query>| search HomeTeam="$btts_home_team$" | eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div | eval pct_btts_yes=(BTTS_YES / games) * 100 , pct_btts_no=(BTTS_NO / games) * 100 | eval pct_btts_yes=round(pct_btts_yes,2), pct_btts_no=round(pct_btts_no,2) | sort - pct_btts_yes</query>
+          <query>| search HomeTeam="$btts_home_team$" | eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div, HomeTeam | eval pct_btts_yes=(BTTS_YES / games) * 100 , pct_btts_no=(BTTS_NO / games) * 100 | eval pct_btts_yes=round(pct_btts_yes,2), pct_btts_no=round(pct_btts_no,2) | sort - pct_btts_yes</query>
         </search>
       </table>
     </panel>
@@ -366,7 +378,7 @@
       </input>
       <table>
         <search base="base_stats_search">
-          <query>| search AwayTeam="$btts_away_team$" | eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div | eval pct_btts_yes=(BTTS_YES / games) * 100 , pct_btts_no=(BTTS_NO / games) * 100 | eval pct_btts_yes=round(pct_btts_yes,2), pct_btts_no=round(pct_btts_no,2) | sort - pct_btts_yes</query>
+          <query>| search AwayTeam="$btts_away_team$" | eval home_score=if(FTHG&gt;0,"yes","no"), away_score=if(FTAG&gt;0,"yes","no") | eval BTTS=if(home_score=="yes" AND away_score=="yes",1,0), NO_BTTS=if(home_score!="yes" OR away_score!="yes",1,0) | stats count as games, sum(BTTS) as BTTS_YES, sum(NO_BTTS) as BTTS_NO by Div, AwayTeam | eval pct_btts_yes=(BTTS_YES / games) * 100 , pct_btts_no=(BTTS_NO / games) * 100 | eval pct_btts_yes=round(pct_btts_yes,2), pct_btts_no=round(pct_btts_no,2) | sort - pct_btts_yes</query>
         </search>
       </table>
     </panel>
