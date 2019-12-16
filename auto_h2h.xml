@@ -27,6 +27,10 @@
       <choice value="fixtures_F1.csv">France - League 1</choice>
       <choice value="fixtures_F2.csv">France - League 2</choice>
       <choice value="fixtures_N1.csv">Netherlands - Eredivisie</choice>
+      <choice value="fixtures_B1.csv">Belgium - First Division</choice>
+      <choice value="fixtures_P1.csv">Portugal - Primeira League</choice>
+      <choice value="fixtures_T1.csv">Turkey - Super Lig</choice>
+      <choice value="fixtures_G1.csv">Greece - League 1</choice>
         <change>
               <unset token="form.game1_home"></unset>
               <unset token="form.game2_home"></unset>
@@ -119,10 +123,10 @@
           <query>| search (Team="$game1_home$" OR Team="$game1_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -133,10 +137,10 @@
           <query>| search (Team="$game1_home$" OR Team="$game1_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -149,22 +153,22 @@
           <query>| search (Team="$game1_home$" OR Team="$game1_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -177,13 +181,22 @@
           <query>| search (Team="$game1_home$" OR Team="$game1_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -237,10 +250,10 @@
           <query>| search (Team="$game2_home$" OR Team="$game2_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -251,10 +264,10 @@
           <query>| search (Team="$game2_home$" OR Team="$game2_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -267,22 +280,22 @@
           <query>| search (Team="$game2_home$" OR Team="$game2_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -295,13 +308,22 @@
           <query>| search (Team="$game2_home$" OR Team="$game2_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -355,10 +377,10 @@
           <query>| search (Team="$game3_home$" OR Team="$game3_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -369,10 +391,10 @@
           <query>| search (Team="$game3_home$" OR Team="$game3_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -385,22 +407,22 @@
           <query>| search (Team="$game3_home$" OR Team="$game3_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -413,13 +435,22 @@
           <query>| search (Team="$game3_home$" OR Team="$game3_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -473,10 +504,10 @@
           <query>| search (Team="$game4_home$" OR Team="$game4_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -487,10 +518,10 @@
           <query>| search (Team="$game4_home$" OR Team="$game4_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -503,22 +534,22 @@
           <query>| search (Team="$game4_home$" OR Team="$game4_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -531,13 +562,22 @@
           <query>| search (Team="$game4_home$" OR Team="$game4_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -591,10 +631,10 @@
           <query>| search (Team="$game5_home$" OR Team="$game5_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -605,10 +645,10 @@
           <query>| search (Team="$game5_home$" OR Team="$game5_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -621,22 +661,22 @@
           <query>| search (Team="$game5_home$" OR Team="$game5_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -649,13 +689,22 @@
           <query>| search (Team="$game5_home$" OR Team="$game5_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -709,10 +758,10 @@
           <query>| search (Team="$game6_home$" OR Team="$game6_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -723,10 +772,10 @@
           <query>| search (Team="$game6_home$" OR Team="$game6_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -739,22 +788,22 @@
           <query>| search (Team="$game6_home$" OR Team="$game6_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -767,13 +816,22 @@
           <query>| search (Team="$game6_home$" OR Team="$game6_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -827,10 +885,10 @@
           <query>| search (Team="$game7_home$" OR Team="$game7_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -841,10 +899,10 @@
           <query>| search (Team="$game7_home$" OR Team="$game7_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -857,22 +915,22 @@
           <query>| search (Team="$game7_home$" OR Team="$game7_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
           <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -885,13 +943,22 @@
           <query>| search (Team="$game7_home$" OR Team="$game7_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -945,10 +1012,10 @@
           <query>| search (Team="$game8_home$" OR Team="$game8_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -959,10 +1026,10 @@
           <query>| search (Team="$game8_home$" OR Team="$game8_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -975,22 +1042,22 @@
           <query>| search (Team="$game8_home$" OR Team="$game8_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1003,13 +1070,22 @@
           <query>| search (Team="$game8_home$" OR Team="$game8_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1063,10 +1139,10 @@
           <query>| search (Team="$game9_home$" OR Team="$game9_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1077,10 +1153,10 @@
           <query>| search (Team="$game9_home$" OR Team="$game9_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1093,22 +1169,22 @@
           <query>| search (Team="$game9_home$" OR Team="$game9_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1121,13 +1197,22 @@
           <query>| search (Team="$game9_home$" OR Team="$game9_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1181,10 +1266,10 @@
           <query>| search (Team="$game10_home$" OR Team="$game10_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1195,10 +1280,10 @@
           <query>| search (Team="$game10_home$" OR Team="$game10_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1211,22 +1296,22 @@
           <query>| search (Team="$game10_home$" OR Team="$game10_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1239,13 +1324,22 @@
           <query>| search (Team="$game10_home$" OR Team="$game10_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1299,10 +1393,10 @@
           <query>| search (Team="$game11_home$" OR Team="$game11_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1313,10 +1407,10 @@
           <query>| search (Team="$game11_home$" OR Team="$game11_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1329,22 +1423,22 @@
           <query>| search (Team="$game11_home$" OR Team="$game11_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1357,13 +1451,22 @@
           <query>| search (Team="$game11_home$" OR Team="$game11_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1417,10 +1520,10 @@
           <query>| search (Team="$game12_home$" OR Team="$game12_away$") | stats avg(percent_under_2_5_goals) as avg_goals_under_2_5, avg(percent_over_2_5_goals) as avg_goals_over_2_5 | eval avg_goals_under_2_5=round(avg_goals_under_2_5,2), avg_goals_over_2_5=round(avg_goals_over_2_5,2)</query>
         </search>
         <format type="color" field="avg_goals_under_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_goals_over_2_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1431,10 +1534,10 @@
           <query>| search (Team="$game12_home$" OR Team="$game12_away$") | stats avg(percent_btts_no) as avg_btts_no, avg(percent_btts_yes) as avg_btts_yes | eval avg_btts_no=round(avg_btts_no,2), avg_btts_yes=round(avg_btts_yes,2)</query>
         </search>
         <format type="color" field="avg_btts_no">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_btts_yes">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1447,22 +1550,22 @@
           <query>| search (Team="$game12_home$" OR Team="$game12_away$") | stats avg(percent_cards_over_3_5) as avg_cards_over_3_5, avg(percent_cards_under_3_5) as avg_cards_under_3_5, avg(percent_cards_over_4_5) as avg_cards_over_4_5, avg(percent_cards_under_4_5) as avg_cards_under_4_5, avg(percent_cards_over_5_5) as avg_cards_over_5_5, avg(percent_cards_under_5_5) as avg_cards_under_5_5 | eval avg_cards_over_3_5=round(avg_cards_over_3_5,2), avg_cards_under_3_5=round(avg_cards_under_3_5,2), avg_cards_over_4_5=round(avg_cards_over_4_5,2), avg_cards_under_4_5=round(avg_cards_under_4_5,2), avg_cards_over_5_5=round(avg_cards_over_5_5,2), avg_cards_under_5_5=round(avg_cards_under_5_5,2)</query>
         </search>
         <format type="color" field="avg_cards_under_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_5_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_4_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_under_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_cards_over_3_5">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
@@ -1475,13 +1578,22 @@
           <query>| search (Team="$game12_home$" OR Team="$game12_away$") | stats avg(percent_corners_over_8) as avg_corners_over_8, avg(percent_corners_over_9) as avg_corners_over_9, avg(percent_corners_over_10) as avg_corners_over_10 | eval avg_corners_over_8=round(avg_corners_over_8,2), avg_corners_over_9=round(avg_corners_over_9,2), avg_corners_over_10=round(avg_corners_over_10,2)</query>
         </search>
         <format type="color" field="avg_corners_over_8">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_9">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
         </format>
         <format type="color" field="avg_corners_over_10">
-          <colorPalette type="expression">if (value &gt; 80, "#65A637", "#ffffff")</colorPalette>
+          <colorPalette type="expression">if (value &lt;= 30, "#FFBF00", "#ffffff")</colorPalette>
+        </format>        
+        <format type="color" field="avg_corners_over_8">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_9">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
+        </format>
+        <format type="color" field="avg_corners_over_10">
+          <colorPalette type="expression">if (value &gt;= 80, "#65A637", "#ffffff")</colorPalette>
         </format>
       </table>
     </panel>
