@@ -41,7 +41,7 @@ def parse_data_source():
 def clear_splunk_index():
 
 	try:
-		curl_cmd = "/usr/bin/curl -m 10 -k -s -u admin:changeme -d \"search=search index=football_19_20 earliest_time=1 latest_time=\"08/31/2030:20:00:00\" | delete\" -d output_mode=json https://localhost:8089/services/search/jobs"
+		curl_cmd = "/usr/bin/curl -m 10 -k -s -u admin:goober13 -d \"search=search index=football_19_20 earliest_time=1 latest_time=\"08/31/2030:20:00:00\" | delete\" -d output_mode=json https://localhost:8089/services/search/jobs"
 
 		out = subprocess.check_output([curl_cmd], shell=True, stderr=subprocess.STDOUT)
 		sid_dict = json.loads(out)
@@ -50,7 +50,7 @@ def clear_splunk_index():
 		time.sleep(5)
 
 		try:
-			curl_cmd = "/usr/bin/curl -m 10 -k -s -u admin:changeme https://localhost:8089/services/search/jobs/" + sid
+			curl_cmd = "/usr/bin/curl -m 10 -k -s -u admin:goober13 https://localhost:8089/services/search/jobs/" + sid
 			out = subprocess.check_output([curl_cmd], shell=True, stderr=subprocess.STDOUT)
 			for line in out.splitlines():
 				if (re.match(r'.*dispatchState\">\w+<.*', line)):
@@ -90,8 +90,20 @@ def grab_and_ingest_csv_files():
 					print "problem removing "+str(csv)
 
 			else:
+				sed_cmd = "cat " + csv_file + " | sed 's/>/gt/g' | sed 's/</lt/g' > " + csv_file + ".1" 
+				print sed_cmd
 				print "Successful gather of "+str(csv_file)
-				oneshot_cmd = "/opt/splunk/bin/splunk add oneshot " +str(csv_file) + " -sourcetype footie_csv -index football_19_20 -auth admin:changeme"
+
+				sed_run = subprocess.check_output([sed_cmd], shell=True, stderr=subprocess.STDOUT)
+				if (os.path.exists(csv_file + ".1")):
+					print "amended file exists"
+					os.remove(csv_file)
+					os.rename(csv_file +".1",csv_file)	
+				else:
+					print "something went wrong with the sed efforts"
+					exit(2)
+
+				oneshot_cmd = "/opt/splunk/bin/splunk add oneshot " +str(csv_file) + " -sourcetype footie_csv -index football_19_20 -auth admin:goober13"
 				time.sleep(5)
 				try:
 					out = subprocess.check_output([oneshot_cmd], shell=True, stderr=subprocess.STDOUT)
@@ -115,4 +127,3 @@ print "clearing splunk index, ready for new ingest..."
 clear_splunk_index()
 print "Grabbing new CSV files..."
 grab_and_ingest_csv_files()
-
